@@ -1,0 +1,131 @@
+import { User } from "../model/User.js";
+import bcrypt from "bcryptjs";
+import { sendVerificationEmail } from "../config/email.js";
+
+export const register = async (req, res) => {
+  const { username, email, individualNumber } = req.body;
+  try {
+    if (!username || !email || !individualNumber)
+      return res.status(400).json({ message: "All fields must be provided!" });
+
+    if (username.length < 3)
+      return res
+        .status(400)
+        .json({ message: "username must be atleast 3 characters" });
+
+    if (individualNumber.length < 11)
+      return res
+        .status(400)
+        .json({ message: "You have entered wrong credentials" });
+    //console.log(individualNumber.length)
+
+    const user = await User.findOne({ email });
+    //hashing
+    const salt = await bcrypt.genSalt(10);
+    const hashIndividualNumber = await bcrypt.hash(individualNumber, salt);
+
+    if (user)
+      return res
+        .status(400)
+        .json({ message: "User with this details already exists" });
+
+    const newUser = new User({
+      username,
+      email,
+      individualNumber: hashIndividualNumber,
+    });
+
+    await newUser.save();
+
+    res
+      .status(201)
+      .json({ newUser, message: "You have been registered successfully" });
+  } catch (error) {
+    console.log("Error", error);
+    res.status(500).json({ message: "Server error,can not register now" });
+  }
+};
+
+export const login = async (req, res) => {
+  const { username, individualNumber } = req.body;
+  try {
+    if (!username || !individualNumber)
+      return res.status(400).json({ message: "wrong credentials" });
+
+    const user = await User.findOne({ username });
+
+    if (!user)
+      return res.status(403).json({ message: "User does not exist!!" });
+
+    const decodeInd = await bcrypt.compare(
+      individualNumber,
+      user.individualNumber
+    );
+
+    if (!decodeInd)
+      return res.status(403).json({ message: "Wrong individual number" });
+
+    const otp = Math.floor(100000 + Math.random() * 90000);
+
+    const optExpiresAt = Date.now() + 5 * 60 * 1000;
+
+    user.verificationCode=otp,
+    user.verificationCodeExpiredAt=optExpiresAt,
+    user.isVerified=false
+     user.save()
+    try {
+      await sendVerificationEmail({
+        from: "Zara <>hissentutu@gmail.com<>",
+        to: user.email,
+        subject: "Verification email",
+        html: `
+        <h1>ZARA APP</h1>
+        <h2>This is your verification code ${otp}</h2>
+        <p>This will expire after 15 minutes</p>
+        `,
+      });
+    } catch (error) {
+      console.error("Error", error);
+      return res.status(500).json({ message: "Can not send email now" });
+    }
+
+    res
+      .status(200)
+      .json({
+        user,
+        message: "Sent a verification mail to your inbox",
+      });
+  } catch (error) {
+    console.log("Error", error);
+    return res
+      .status(500)
+      .json({ message: "Sever error, could not login now." });
+  }
+};
+
+export const verify = async(req,res)=>{
+    const {otp}=req.body
+    try {
+        const user= await User.findOne({
+            verificationCode:otp,
+            verificationCodeExpiredAt:{$gt: Date.now()}
+
+        })
+        if(!user) return res.status(404).json({message:"You entered wrong or expired verification code."})
+        user.verificationCode=undefined,
+        user.verificationCodeExpiredAt=undefined
+        user.isVerified=true
+        user.save()
+
+        res.status(200).json({
+            user
+        
+        })
+
+        
+    } catch (error) {
+        console.log("Error",error)
+        res.status(500).json({message:"Server error,can not verify token.",})
+        
+    }
+}
