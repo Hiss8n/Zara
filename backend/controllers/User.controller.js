@@ -19,27 +19,27 @@ export const register = async (req, res) => {
         .json({ message: "You have entered wrong credentials" });
     //console.log(individualNumber.length)
 
-    const user = await User.findOne({ email });
+    const existUser = await User.findOne({ email });
     //hashing
     const salt = await bcrypt.genSalt(10);
     const hashIndividualNumber = await bcrypt.hash(individualNumber, salt);
 
-    if (user)
+    if (existUser)
       return res
         .status(400)
         .json({ message: "User with this details already exists" });
 
-    const newUser = new User({
+    const user = new User({
       username,
       email,
       individualNumber: hashIndividualNumber,
     });
 
-    await newUser.save();
+    await user.save();
 
     res
       .status(201)
-      .json({ newUser, message: "You have been registered successfully" });
+      .json({ user, message: "You have been registered successfully" });
   } catch (error) {
     console.log("Error", error);
     res.status(500).json({ message: "Server error,can not register now" });

@@ -1,24 +1,171 @@
-import {  Text, TextInput} from 'react-native'
-import React from 'react'
+import { SafeAreaView, Text, TextInput, View,StyleSheet,TouchableOpacity, KeyboardAvoidingView, Platform} from 'react-native'
+import React, { useState } from 'react'
+import { LinearGradient } from 'expo-linear-gradient'
+import {useAuthStore} from "../store/AuthStore";
 
+const SignUp= () => {
+  const [IsLoading,setIsLoading]=useState(false)
+  const [error,setError]=useState(false)
+  const [username,setUserName]=useState("")
+  const [email,setEmail]=useState("")
+  const [individual,setIndividual]=useState("")
 
-const SignUpScreen=()=>{   
-
-  return<SafeAreaContext style={{flex:1}}>
-
-   
-   <View >
-    <TextInput
-    placeholder='johndoe'
-    onChangeText={setName}
-    
-    />
-
-   </View>
-
-    
-     </SafeAreaContext>
+  const {user,seyHello,register}=useAuthStore()
   
+
+  const handleSignUp=async()=>{
+    seyHello()
+   
+
+  }
+ 
+  
+  return (<KeyboardAvoidingView
+  style={{flex:1}}
+  behavior={[Platform.OS ==='ios' ? "padding":"hieght"]}
+  >  
+    
+  
+      <SafeAreaView style={{flex:1,justifyContent:'center'}}>
+       
+        <View style={styles.inputContainer}>
+
+          <Text style={styles.inputHeader}>Register</Text>
+          {/*  <Loader size={24} color='red'/> */}
+
+          <View style={styles.logInContainer}>
+          <Text style={styles.label}>Enter you first Name</Text>
+          <TextInput
+          value={username}
+          placeholderTextColor='#353333ff'
+          placeholder='johnDoe...'
+          style={styles.nameInput}
+          onChangeText={setUserName}
+          />
+
+
+          </View>
+          <View style={styles.logInContainer}>
+          <Text style={styles.label}>Enter you first Email</Text>
+          <TextInput
+          value={email}
+          onChangeText={setEmail}
+          placeholderTextColor='#353333ff'
+          placeholder='johndoe@gmail.com...'
+          style={styles.nameInput}
+          />
+
+
+          </View>
+
+          <View style={styles.logInContainer}>
+          <Text style={styles.label}>Enter Individual Number</Text>
+          <TextInput
+          value={individual}
+          onChangeText={setIndividual}
+          placeholderTextColor='#353333ff'
+          placeholder='individual no...'
+          style={styles.nameInput}
+          />
+
+
+          </View>
+             {error ? <Text>{error}</Text>:null}
+              
+                <LinearGradient
+                colors={['#1717d5ff','#30aadaff']}
+                start={{
+                  x:0,y:0
+                }}
+                end={{x:1,y:1}}
+                 style={styles.forward} >
+                  <TouchableOpacity
+                  onPress={handleSignUp}
+                   style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}} >
+
+                    { IsLoading ? <Text style={{color:'#efefe7ff',fontSize:16}}>Loading...</Text>:
+                    <Text style={{fontStyle:'normal',fontSize:18,color:'#fff'}}>Register </Text>} 
+                  
+                  
+                   
+                </TouchableOpacity>
+                  
+                </LinearGradient>
+          
+          </View>
+          
+         
+      </SafeAreaView>
+      </KeyboardAvoidingView>
+   
+   
+  )
 }
 
-export default SignUpScreen
+
+
+const styles=StyleSheet.create({
+  inputContainer:{
+    //width:'100%',
+   // backgroundColor:'#0456ce',
+    marginTop:140,
+    paddingBottom:30,
+    with:321
+
+  },
+  logInContainer:{
+    flexDirection:'column',
+    width:'100%',
+    height:70,
+    marginLeft:28,
+    borderRadius:20,
+    marginTop:34,
+    paddingTop:8
+    
+
+  },
+  inputHeader:{
+    fontSize:24,
+    textAlign:'center',
+    marginBottom:12,
+    color:'#0456ec',
+    fontWeight:700
+
+  },
+  label:{
+    fontSize:16,
+    color:'#2a2626a9',
+    marginBottom:10
+
+  },
+  nameInput:{
+    borderWidth:1,
+    borderColor:'blue',
+    width:320,
+    borderRadius:10,
+    
+    paddingLeft:12
+    
+  },
+    forward:{
+    //flexDirection:'row',
+    //alignItems:'center',
+    marginBottom:0,
+    marginTop:50,
+    paddingTop:15,
+    //width:321,
+    paddingBottom:15,
+    marginLeft:24,
+    marginRight:24,
+    borderRadius:35, 
+    flexDirection:'column',
+
+  //padding:18,
+  
+    
+
+    
+
+  }
+})
+export default SignUp

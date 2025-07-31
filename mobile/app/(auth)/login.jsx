@@ -1,10 +1,7 @@
 import { SafeAreaView, Text, TextInput, View,StyleSheet,TouchableOpacity} from 'react-native'
 import React, { useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Loader } from 'lucide-react'
-
-
-
+import { Link } from 'expo-router'
 
 const LoginScreen = () => {
   const [IsLoading,setIsLoading]=useState(false)
@@ -62,7 +59,9 @@ const LoginScreen = () => {
                 </LinearGradient>
           
           </View>
-          
+          <View style={styles.bottomText}>
+            <Text>Don't have an account? {""}<Link href={'/signUp'} style={{color:'#da067aff',fontSize:14}}>Register</Link></Text>
+          </View>
          
       </SafeAreaView>
    
@@ -134,6 +133,12 @@ const styles=StyleSheet.create({
 
     
 
+  },
+  bottomText:{
+    flexDirection:'row',
+    alignContent:'center',
+    justifyContent:'center',
+    marginTop:0
   }
 })
 export default LoginScreen
