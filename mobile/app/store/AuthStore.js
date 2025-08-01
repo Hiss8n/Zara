@@ -9,8 +9,10 @@ const API_URL='https://zara-zeta.vercel.app/'
 
 export const useAuthStore=create((set)=>({
     user:null,
+    token:null,
     isLoading:false,
     message:null,
+
     register:async(username ,email,individualNumber)=>{
        set({isLoading:true})
         try {
@@ -49,6 +51,34 @@ export const useAuthStore=create((set)=>({
             
         }
     },
+    login:async()=>{
+        set({isLoading:true})
+        try {
+            const response=await fetch(`${API_URL}/api/user/login`,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body:JSON.stringify({
+                    email,
+                    individualNumber
+                })
+
+            })
+            const data= await response.json()
+
+            await AsyncStorage.setItem("user",JSON.stringify(data.user))
+            await AsyncStorage.setItem("token",data.token)
+
+            set({user:data.user,isLoading:false,token:data.token})
+            set({isLoading:false})
+            console.log(data)
+        } catch (error) {
+            console.log("Error",error)
+            set({isLoading:false,token:null,user:null})
+            
+        }
+    }
    
 }))
 

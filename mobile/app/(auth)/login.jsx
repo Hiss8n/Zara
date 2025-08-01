@@ -1,11 +1,31 @@
 import { SafeAreaView, Text, TextInput, View,StyleSheet,TouchableOpacity, KeyboardAvoidingView, Platform,} from 'react-native'
 import React, { useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
+import { useAuthStore } from '../store/AuthStore'
 
 const LoginScreen = () => {
-  const [IsLoading,setIsLoading]=useState(false)
+  
   const [error,setError]=useState(false)
+  const [username,setUserName]=useState()
+  const [individualNumber,setIndividualNumber]=useState("")
+
+  const {isLoading,user,login}= useAuthStore()
+
+  const handleLogin=async()=>{
+    try {
+      const res=await login(username,individualNumber)
+
+      if(res){
+        router.push('(tabs)')
+      }
+      
+
+    } catch (error) {
+      console.log("error",error)
+      
+    }
+  }
  
   
   return (<KeyboardAvoidingView
@@ -51,9 +71,11 @@ const LoginScreen = () => {
                 }}
                 end={{x:1,y:1}}
                  style={styles.forward} >
-                  <TouchableOpacity style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}} >
+                  <TouchableOpacity
+                  onPress={handleLogin}
+                   style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}} >
 
-                    { IsLoading ? <Text style={{color:'#efefe7ff',fontSize:16}}>Loading...</Text>:
+                    { isLoading ? <Text style={{color:'#efefe7ff',fontSize:16}}>Loading...</Text>:
                     <Text style={{fontStyle:'normal',fontSize:18,color:'#fff'}}>Login </Text>} 
                   
                   
