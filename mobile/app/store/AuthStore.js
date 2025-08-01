@@ -1,5 +1,6 @@
 import {create} from "zustand"
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { use } from "react";
 
 const API_URL='https://zara-zeta.vercel.app/'
 
@@ -35,7 +36,10 @@ export const useAuthStore=create((set)=>({
             //await AsyncStorage.removeItem("message",JSON.stringify(data.token))
             //set({user:data.user})
             //set({message:data.message})
-            console.log(data.success)
+            if(data.success){
+                set({user:data.user})
+            }
+            //console.log(data.success)
             set({isLoading:false})
         } catch (error) {
             console.log("Error",error)

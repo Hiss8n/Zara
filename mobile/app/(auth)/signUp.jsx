@@ -2,7 +2,7 @@ import { SafeAreaView, Text, TextInput, View,StyleSheet,TouchableOpacity, Keyboa
 import React, { useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import {useAuthStore} from "../store/AuthStore";
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 const SignUp= () => {
  
   const [error,setError]=useState(false)
@@ -19,17 +19,21 @@ const SignUp= () => {
       const res=await register(username,email,individualNumber)
 
       
-      if(!res){
+      if(res){
           Alert.alert("Can not register now")
         } else{
           Alert.alert("Register successfully",
-            "Login with your individual no. to continue!"
-          )
+            "Login with your individual no. to continue!",
+            )
+            setTimeout(()=>
+            {router.push('/login')},1500)
+            
         }
         setUserName("")
         setEmail("")
         setIndividualNumber("")
         //console.log(user)
+       console.log(user)
       
     } catch (error) {
     console.log('Error',error)

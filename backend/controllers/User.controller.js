@@ -2,6 +2,8 @@ import { User } from "../model/User.js";
 import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "../config/email.js";
 
+
+
 export const register = async (req, res) => {
   const { username, email, individualNumber } = req.body;
   try {
@@ -53,12 +55,12 @@ export const login = async (req, res) => {
   const { username, individualNumber } = req.body;
   try {
     if (!username || !individualNumber)
-      return res.status(400).json({ message: "wrong credentials" });
+      return res.status(400).json({success:false, message: "wrong credentials" });
 
     const user = await User.findOne({ username });
 
     if (!user)
-      return res.status(403).json({ message: "User does not exist!!" });
+      return res.status(403).json({success:false, message: "User does not exist!!" });
 
     const decodeInd = await bcrypt.compare(
       individualNumber,
@@ -66,7 +68,7 @@ export const login = async (req, res) => {
     );
 
     if (!decodeInd)
-      return res.status(403).json({ message: "Wrong individual number" });
+      return res.status(403).json({success:false, message: "Wrong individual number" });
 
     const otp = Math.floor(100000 + Math.random() * 90000);
 
@@ -87,14 +89,21 @@ export const login = async (req, res) => {
         <p>This will expire after 15 minutes</p>
         `,
       });
+
+      
+
+
     } catch (error) {
       console.error("Error", error);
       return res.status(500).json({ message: "Can not send email now" });
     }
+    const token=await generatToken(user._id)
 
     res
       .status(200)
       .json({
+        success:true,
+        token,
         user,
         message: "Sent a verification mail to your inbox",
       });
