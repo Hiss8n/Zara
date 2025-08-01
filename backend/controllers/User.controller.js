@@ -57,7 +57,7 @@ export const login = async (req, res) => {
     if (!username || !individualNumber)
       return res.status(400).json({success:false, message: "wrong credentials" });
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ $or:[{username},{individualNumber}] });
 
     if (!user)
       return res.status(403).json({success:false, message: "User does not exist!!" });
@@ -97,9 +97,7 @@ export const login = async (req, res) => {
     }
     const token=await generatToken(user._id)
 
-    res
-      .status(200)
-      .json({
+    return res.status(200).json({
         success:true,
         token,
         user,
