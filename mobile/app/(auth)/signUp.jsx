@@ -18,7 +18,7 @@ const SignUp= () => {
     try {
       const res=await register(username,email,individualNumber)
 
-      console.log(res)
+      
       if(!res.ok){
           Alert.alert("Can not register now")
         } 

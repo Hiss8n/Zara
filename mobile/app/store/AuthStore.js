@@ -1,5 +1,5 @@
 import {create} from "zustand"
-import {AsynStorage} from "@react-native-async-storage/async-storage"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const API_URL='https://zara-zeta.vercel.app/'
 
@@ -28,11 +28,12 @@ export const useAuthStore=create((set)=>({
             
             const data= await response.json()
             //console.log(data)
-            //await AsynStorage.setItem("user",JSON.stringify(data.user))
-           // console.log(response)
-            //await AsynStorage.setItem("token",data.token)
-            console.log(data)
-            set({user:data.user})
+            await AsyncStorage.setItem("user",JSON.stringify(data.user));
+            
+           //console.log(response)
+            await AsyncStorage.setItem("message",JSON.stringify(data.token))
+            //set({user:data.user})
+            //set({message:data.message})
 
 
            return {success:true} 
