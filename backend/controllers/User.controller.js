@@ -62,9 +62,7 @@ export const login = async (req, res) => {
     if (!user)
       return res.status(403).json({success:false, message: "User does not exist!!" });
 
-    const decodeInd = await bcrypt.compare(
-      individualNumber,
-      user.individualNumber
+    const decodeInd = await bcrypt.compare(individualNumber,user.individualNumber
     );
 
     if (!decodeInd)

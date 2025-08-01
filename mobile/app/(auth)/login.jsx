@@ -17,7 +17,7 @@ const LoginScreen = () => {
       const res=await login(username,individualNumber)
 
       if(res){
-        router.push('(tabs)')
+        router.push('/(tabs)')
       }
       
 
@@ -45,6 +45,8 @@ const LoginScreen = () => {
           <View style={styles.logInContainer}>
           <Text style={styles.label}>Enter you first Name</Text>
           <TextInput
+          value={username}
+          onChangeText={setUserName}
           placeholderTextColor='#353333ff'
           placeholder='johnDoe...'
           style={styles.nameInput}
@@ -55,6 +57,8 @@ const LoginScreen = () => {
           <View style={styles.logInContainer}>
           <Text style={styles.label}>Enter Individual Number</Text>
           <TextInput
+          value={individualNumber}
+          onChangeText={setIndividualNumber}
           placeholderTextColor='#353333ff'
           placeholder='individual no...'
           style={styles.nameInput}

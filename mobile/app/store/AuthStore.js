@@ -66,13 +66,14 @@ export const useAuthStore=create((set)=>({
 
             })
             const data= await response.json()
+            console.log(data)
 
-            await AsyncStorage.setItem("user",JSON.stringify(data.user))
-            await AsyncStorage.setItem("token",data.token)
+            await AsyncStorage.removeItem("user",JSON.stringify(data.user))
+            await AsyncStorage.removeItem("token",data.token)
 
             set({user:data.user,isLoading:false,token:data.token})
             set({isLoading:false})
-            console.log(data)
+            
         } catch (error) {
             console.log("Error",error)
             set({isLoading:false,token:null,user:null})
