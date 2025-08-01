@@ -33,7 +33,7 @@ const WelcomeScreen = () => {
       </View>
       </View>
       {/* ARROW FORWARD */}
-      <Link href={'/login'} 
+      <Link href={'/signUp'} 
       asChild>  
        
       <TouchableOpacity>  

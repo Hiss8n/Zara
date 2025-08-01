@@ -1,20 +1,22 @@
 import {create} from "zustand"
 import {AsynStorage} from "@react-native-async-storage/async-storage"
 
+const API_URL='https://zara-zeta.vercel.app/'
 
 
 
-export const useAuthStore=create(({set})=>({
-    user:"tutu",
+
+export const useAuthStore=create((set)=>({
+    user:null,
     isLoading:false,
     message:null,
     register:async(username ,email,individualnumber)=>{
-        setLoading(true)
+       set({isLoading:true})
         try {
-            const response= await fetch("http://localhost:5001/api/user/resgister",{
-                method:'POST',
+            const response= await fetch(`${API_URL}/api/user/register`,{
+                method:"POST",
                 headers:{
-                    'Content-Type':'application/json'
+                    'Content-Type':"application/json"
                 },
                 body:JSON.stringify({
                     username,
@@ -22,10 +24,14 @@ export const useAuthStore=create(({set})=>({
                     individualnumber
                 })
             })
+            
+            
             const data= await response.json()
-            await AsynStorage.setItem("user",JSON.stringify(data.user))
-            await AsynStorage.setItem("token",data.token)
-            set({user:data.user,token:data.token,isLoading:false})
+            //console.log(data)
+            //await AsynStorage.setItem("user",JSON.stringify(data.user))
+            console.log(response)
+            //await AsynStorage.setItem("token",data.token)
+            set({user:data.user})
 
 
            return {success:true} 
@@ -37,8 +43,6 @@ export const useAuthStore=create(({set})=>({
             
         }
     },
-    seyHello:()=>{
-        console.log("Hello there!!")
-    }
+   
 }))
 

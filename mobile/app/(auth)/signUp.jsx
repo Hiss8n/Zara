@@ -1,22 +1,34 @@
-import { SafeAreaView, Text, TextInput, View,StyleSheet,TouchableOpacity, KeyboardAvoidingView, Platform} from 'react-native'
+import { SafeAreaView, Text, TextInput, View,StyleSheet,TouchableOpacity, KeyboardAvoidingView, Platform, Alert} from 'react-native'
 import React, { useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import {useAuthStore} from "../store/AuthStore";
-
+import { Link } from 'expo-router';
 const SignUp= () => {
-  const [IsLoading,setIsLoading]=useState(false)
+ 
   const [error,setError]=useState(false)
   const [username,setUserName]=useState("")
   const [email,setEmail]=useState("")
   const [individual,setIndividual]=useState("")
 
-  const {user,seyHello,register}=useAuthStore()
+  const {user,register,isLoading}=useAuthStore()
   
 
   const handleSignUp=async()=>{
-    seyHello()
    
-
+    try {
+      const res=await register(username,email,individual)
+      if(!res.ok){
+          Alert.alert("Can not register now")
+        } 
+        setUserName("")
+        setEmail("")
+        setIndividual("")
+        console.log(user)
+      
+    } catch (error) {
+    console.log('Error',error)
+  }
+   
   }
  
   
@@ -46,7 +58,7 @@ const SignUp= () => {
 
           </View>
           <View style={styles.logInContainer}>
-          <Text style={styles.label}>Enter you first Email</Text>
+          <Text style={styles.label}>Enter Email Address</Text>
           <TextInput
           value={email}
           onChangeText={setEmail}
@@ -83,7 +95,7 @@ const SignUp= () => {
                   onPress={handleSignUp}
                    style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}} >
 
-                    { IsLoading ? <Text style={{color:'#efefe7ff',fontSize:16}}>Loading...</Text>:
+                    { isLoading? <Text style={{color:'#efefe7ff',fontSize:16}}>Loading...</Text>:
                     <Text style={{fontStyle:'normal',fontSize:18,color:'#fff'}}>Register </Text>} 
                   
                   
@@ -94,7 +106,9 @@ const SignUp= () => {
           
           </View>
           
-         
+         <View style={styles.bottomText}>
+                     <Text>Already have an account? {""}<Link href={'/login'} style={{color:'#da067aff',fontSize:14}}>login</Link></Text>
+                   </View>
       </SafeAreaView>
       </KeyboardAvoidingView>
    
@@ -161,11 +175,12 @@ const styles=StyleSheet.create({
     flexDirection:'column',
 
   //padding:18,
-  
-    
-
-    
-
+  },
+   bottomText:{
+    flexDirection:'row',
+    alignContent:'center',
+    justifyContent:'center',
+    marginTop:0
   }
 })
 export default SignUp

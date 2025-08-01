@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, TextInput, View,StyleSheet,TouchableOpacity} from 'react-native'
+import { SafeAreaView, Text, TextInput, View,StyleSheet,TouchableOpacity, KeyboardAvoidingView, Platform,} from 'react-native'
 import React, { useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Link } from 'expo-router'
@@ -8,7 +8,11 @@ const LoginScreen = () => {
   const [error,setError]=useState(false)
  
   
-  return (
+  return (<KeyboardAvoidingView
+  style={{flex:1}}
+  behavior={Platform.OS === 'ios'? "padding":"height"}
+  
+  >  
     
   
       <SafeAreaView style={{flex:1,justifyContent:'center'}}>
@@ -64,6 +68,7 @@ const LoginScreen = () => {
           </View>
          
       </SafeAreaView>
+      </KeyboardAvoidingView>
    
    
   )
