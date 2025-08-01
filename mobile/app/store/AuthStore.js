@@ -51,7 +51,7 @@ export const useAuthStore=create((set)=>({
             
         }
     },
-    login:async()=>{
+    login:async(username,individualNumber)=>{
         set({isLoading:true})
         try {
             const response=await fetch(`${API_URL}/api/user/login`,{
@@ -60,7 +60,7 @@ export const useAuthStore=create((set)=>({
                     "Content-Type":"application/json"
                 },
                 body:JSON.stringify({
-                    email,
+                    username,
                     individualNumber
                 })
 
