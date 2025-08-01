@@ -19,9 +19,13 @@ const SignUp= () => {
       const res=await register(username,email,individualNumber)
 
       
-      if(!res.ok){
+      if(!res){
           Alert.alert("Can not register now")
-        } 
+        } else{
+          Alert.alert("Register successfully",
+            "Login with your individual no. to continue!"
+          )
+        }
         setUserName("")
         setEmail("")
         setIndividualNumber("")
@@ -50,7 +54,7 @@ const SignUp= () => {
           <View style={styles.logInContainer}>
           <Text style={styles.label}>Enter you first Name</Text>
           <TextInput
-          value={username}
+          value={username.trim()}
           placeholderTextColor='#353333ff'
           placeholder='johnDoe...'
           style={styles.nameInput}
@@ -62,7 +66,7 @@ const SignUp= () => {
           <View style={styles.logInContainer}>
           <Text style={styles.label}>Enter Email Address</Text>
           <TextInput
-          value={email}
+          value={email.trim()}
           onChangeText={setEmail}
           placeholderTextColor='#353333ff'
           placeholder='johndoe@gmail.com...'
@@ -75,7 +79,7 @@ const SignUp= () => {
           <View style={styles.logInContainer}>
           <Text style={styles.label}>Enter Individual Number</Text>
           <TextInput
-          value={individualNumber}
+          value={individualNumber.trim()}
           onChangeText={setIndividualNumber}
           placeholderTextColor='#353333ff'
           placeholder='individual no...'

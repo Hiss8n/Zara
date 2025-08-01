@@ -39,10 +39,13 @@ export const register = async (req, res) => {
 
     res
       .status(201)
-      .json({ user, message: "You have been registered successfully" });
+      .json({
+        success:true,
+         user, 
+         message: "You have been registered successfully" });
   } catch (error) {
     console.log("Error", error);
-    res.status(500).json({ message: "Server error,can not register now" });
+    res.status(500).json({ success:false,message: "Server error,can not register now" });
   }
 };
 
