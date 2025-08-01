@@ -19,7 +19,7 @@ export const register = async (req, res) => {
         .json({ message: "You have entered wrong credentials" });
     //console.log(individualNumber.length)
 
-    const existUser = await User.findOne({ email });
+    const existUser = await User.findOne({ username });
     //hashing
     const salt = await bcrypt.genSalt(10);
     const hashIndividualNumber = await bcrypt.hash(individualNumber, salt);

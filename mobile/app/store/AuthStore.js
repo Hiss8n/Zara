@@ -10,18 +10,18 @@ export const useAuthStore=create((set)=>({
     user:null,
     isLoading:false,
     message:null,
-    register:async(username ,email,individualnumber)=>{
+    register:async(username ,email,individualNumber)=>{
        set({isLoading:true})
         try {
             const response= await fetch(`${API_URL}/api/user/register`,{
                 method:"POST",
                 headers:{
-                    'Content-Type':"application/json"
+                    "Content-Type":"application/json"
                 },
                 body:JSON.stringify({
                     username,
                     email,
-                    individualnumber
+                    individualNumber
                 })
             })
             
@@ -29,8 +29,9 @@ export const useAuthStore=create((set)=>({
             const data= await response.json()
             //console.log(data)
             //await AsynStorage.setItem("user",JSON.stringify(data.user))
-            console.log(response)
+           // console.log(response)
             //await AsynStorage.setItem("token",data.token)
+            console.log(data)
             set({user:data.user})
 
 

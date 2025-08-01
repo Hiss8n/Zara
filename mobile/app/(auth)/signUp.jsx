@@ -8,7 +8,7 @@ const SignUp= () => {
   const [error,setError]=useState(false)
   const [username,setUserName]=useState("")
   const [email,setEmail]=useState("")
-  const [individual,setIndividual]=useState("")
+  const [individualNumber,setIndividualNumber]=useState("")
 
   const {user,register,isLoading}=useAuthStore()
   
@@ -16,14 +16,16 @@ const SignUp= () => {
   const handleSignUp=async()=>{
    
     try {
-      const res=await register(username,email,individual)
+      const res=await register(username,email,individualNumber)
+
+      console.log(res)
       if(!res.ok){
           Alert.alert("Can not register now")
         } 
         setUserName("")
         setEmail("")
-        setIndividual("")
-        console.log(user)
+        setIndividualNumber("")
+        //console.log(user)
       
     } catch (error) {
     console.log('Error',error)
@@ -73,8 +75,8 @@ const SignUp= () => {
           <View style={styles.logInContainer}>
           <Text style={styles.label}>Enter Individual Number</Text>
           <TextInput
-          value={individual}
-          onChangeText={setIndividual}
+          value={individualNumber}
+          onChangeText={setIndividualNumber}
           placeholderTextColor='#353333ff'
           placeholder='individual no...'
           style={styles.nameInput}
