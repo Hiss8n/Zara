@@ -101,6 +101,7 @@ const SignUp= () => {
                 }}
                 end={{x:1,y:1}}
                  style={styles.forward} >
+                  
                   <TouchableOpacity
                   onPress={handleSignUp}
                    style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}} >
