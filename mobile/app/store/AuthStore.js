@@ -70,4 +70,32 @@ export const useAuthStore = create((set) => ({
       set({ isLoading: false, token: null, user: null });
     }
   },
+  verify:async(code)=>{
+    set({isLoading:true})
+    try {
+      const response=await fetch(`${API_URL}/api/user/verify`,{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+          code
+        })
+      })
+
+
+      const data=await response.json()
+      console.log(data)
+      
+
+
+
+      set({isLoading:false})
+    } catch (error) {
+      console.log("Error",error)
+      set({isLoading:false,user:null,message:null})
+
+      
+    }
+  }
 }));

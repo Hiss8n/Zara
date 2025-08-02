@@ -121,7 +121,7 @@ export const verify = async (req, res) => {
   try {
     const user = await User.findOne({
       verificationCode: otp,
-      verificationCodeExpiredAt: { $gt: Date.now() },
+      verificationCodeExpiredAt: { $gt: new Date.now() },
     });
     if (!user)
       return res

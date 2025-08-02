@@ -13,12 +13,21 @@ import SafeAreaContext from "../components/SafeAreaContext";
 import { useAuthStore } from "../store/AuthStore";
 import { LinearGradient } from "expo-linear-gradient";
 
+
 const verifyCode = () => {
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState(0);
 
   const { isLoading, verify, user } = useAuthStore();
 
-  const handleSubmit = () => {};
+  const handleSubmit =async () => {
+     const res =await verify(code)
+     if(res){
+      console.log(res)
+     } else{
+      return
+     }
+     
+  };
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -35,7 +44,7 @@ const verifyCode = () => {
               <TextInput
                 placeholder="Enter Verification code..."
                 onChangeText={setCode}
-                value={code.trim()}
+                value={parseInt(code)}
                 placeholderTextColor="#868383ff"
                 style={styles.input}
               />
