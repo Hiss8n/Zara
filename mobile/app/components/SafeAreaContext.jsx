@@ -1,4 +1,4 @@
-/* import { View, Text,SafeAreaView } from 'react-native'
+import { View, Text,SafeAreaView } from 'react-native'
 import React from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -13,4 +13,4 @@ const SafeAreaContext = ({children}) => {
   )
 }
 
-export default SafeAreaContext */
+export default SafeAreaContext 

@@ -2,8 +2,6 @@ import { User } from "../model/User.js";
 import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "../config/email.js";
 
-
-
 export const register = async (req, res) => {
   const { username, email, individualNumber } = req.body;
   try {
@@ -39,15 +37,16 @@ export const register = async (req, res) => {
 
     await user.save();
 
-    res
-      .status(201)
-      .json({
-        success:true,
-         user, 
-         message: "You have been registered successfully" });
+    res.status(201).json({
+      success: true,
+      user,
+      message: "You have been registered successfully",
+    });
   } catch (error) {
     console.log("Error", error);
-    res.status(500).json({ success:false,message: "Server error,can not register now" });
+    res
+      .status(500)
+      .json({ success: false, message: "Server error,can not register now" });
   }
 };
 
@@ -55,27 +54,37 @@ export const login = async (req, res) => {
   const { username, individualNumber } = req.body;
   try {
     if (!username || !individualNumber)
-      return res.status(400).json({success:false, message: "wrong credentials" });
+      return res
+        .status(400)
+        .json({ success: false, message: "wrong credentials" });
 
-    const user = await User.findOne({ $or:[{username},{individualNumber}] });
+    const user = await User.findOne({
+      $or: [{ username }, { individualNumber }],
+    });
 
     if (!user)
-      return res.status(403).json({success:false, message: "User does not exist!!" });
+      return res
+        .status(403)
+        .json({ success: false, message: "User does not exist!!" });
 
-    const decodeInd = await bcrypt.compare(individualNumber,user.individualNumber
+    const decodeInd = await bcrypt.compare(
+      individualNumber,
+      user.individualNumber
     );
 
     if (!decodeInd)
-      return res.status(403).json({success:false, message: "Wrong individual number" });
+      return res
+        .status(403)
+        .json({ success: false, message: "Wrong individual number" });
 
     const otp = Math.floor(100000 + Math.random() * 90000);
 
     const optExpiresAt = Date.now() + 5 * 60 * 1000;
 
-    user.verificationCode=otp,
-    user.verificationCodeExpiredAt=optExpiresAt,
-    user.isVerified=false
-     user.save()
+    (user.verificationCode = otp),
+      (user.verificationCodeExpiredAt = optExpiresAt),
+      (user.isVerified = false);
+    user.save();
     try {
       await sendVerificationEmail({
         from: "Zara <>hissentutu@gmail.com<>",
@@ -87,53 +96,47 @@ export const login = async (req, res) => {
         <p>This will expire after 15 minutes</p>
         `,
       });
-
-      
-
-
     } catch (error) {
       console.error("Error", error);
       return res.status(500).json({ message: "Can not send email now" });
     }
-    const token=await generatToken(user._id)
+    const token = await generatToken(user._id);
 
     return res.status(200).json({
-        success:true,
-        token,
-        user,
-        message: "Sent a verification mail to your inbox",
-      });
+      success: true,
+      token,
+      user,
+      message: "Sent a verification mail to your inbox",
+    });
   } catch (error) {
     console.log("Error", error);
     return res
       .status(500)
-      .json({ message: "Sever error, could not login now." });
+      .json({ success: false, message: "Sever error, could not login now." });
   }
 };
 
-export const verify = async(req,res)=>{
-    const {otp}=req.body
-    try {
-        const user= await User.findOne({
-            verificationCode:otp,
-            verificationCodeExpiredAt:{$gt: Date.now()}
+export const verify = async (req, res) => {
+  const { otp } = req.body;
+  try {
+    const user = await User.findOne({
+      verificationCode: otp,
+      verificationCodeExpiredAt: { $gt: Date.now() },
+    });
+    if (!user)
+      return res
+        .status(404)
+        .json({ message: "You entered wrong or expired verification code." });
+    (user.verificationCode = undefined),
+      (user.verificationCodeExpiredAt = undefined);
+    user.isVerified = true;
+    user.save();
 
-        })
-        if(!user) return res.status(404).json({message:"You entered wrong or expired verification code."})
-        user.verificationCode=undefined,
-        user.verificationCodeExpiredAt=undefined
-        user.isVerified=true
-        user.save()
-
-        res.status(200).json({
-            user
-        
-        })
-
-        
-    } catch (error) {
-        console.log("Error",error)
-        res.status(500).json({message:"Server error,can not verify token.",})
-        
-    }
-}
+    res.status(200).json({
+      user,
+    });
+  } catch (error) {
+    console.log("Error", error);
+    res.status(500).json({ message: "Server error,can not verify token." });
+  }
+};

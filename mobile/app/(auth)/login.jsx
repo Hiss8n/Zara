@@ -87,6 +87,7 @@ const LoginScreen = () => {
                 </TouchableOpacity>
                   
                 </LinearGradient>
+                <Link href={'/verifyCode'}>code</Link>
           
           </View>
           <View style={styles.bottomText}>
