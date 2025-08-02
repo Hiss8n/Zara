@@ -119,14 +119,18 @@ export const login = async (req, res) => {
 export const verify = async (req, res) => {
   const { otp } = req.body;
   try {
-    const user = await User.findOne({
+    const codeExisuser = await User.findOne({
       verificationCode: otp,
-      verificationCodeExpiredAt: { $gt: new Date.now() },
+      
     });
-    if (!user)
+    if(codeExisuser){
+      return res.status(400).json({success:false,message:"Wrong verification code!"})
+    }
+    const expiredCode=await User.findOne({verificationCodeExpiredAt: { $gt: new Date.now() }})
+    if (!expiredCode)
       return res
         .status(404)
-        .json({ message: "You entered wrong or expired verification code." });
+        .json({ message: "Verification code Expired!" });
     (user.verificationCode = undefined),
       (user.verificationCodeExpiredAt = undefined);
     user.isVerified = true;
