@@ -28,8 +28,8 @@ const verifyCode = () => {
 
 //console.log(typeof(code))
   const handleSubmit =async () => {
-    const newcodeNum=parseInt(code)
-     const res =await verify(newcodeNum)
+    //const newcodeNum=parseInt(code)
+     const res =await verify(code)
      if(res.success){
        router.replace("/(tabs)/book")
       } else{
