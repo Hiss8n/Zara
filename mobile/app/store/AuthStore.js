@@ -1,11 +1,10 @@
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
 export const API_URL = "https://zara-zeta.vercel.app/";
 
 export const useAuthStore = create((set) => ({
-  user:null,
+  user: null,
   token: null,
   isLoading: false,
   message: null,
@@ -26,13 +25,12 @@ export const useAuthStore = create((set) => ({
       });
 
       const data = await response.json();
-      if(!response.ok)throw new Error(data.message | "Somthing went wrong!")
-     
-      await AsyncStorage.setItem("user",JSON.stringify(data.user))
-      set({ user:data.user,isLoading:false});
-  
-      
-        return {success:true}
+      if (!response.ok) throw new Error(data.message | "Somthing went wrong!");
+
+      await AsyncStorage.setItem("user", JSON.stringify(data.user));
+      set({ user: data.user, isLoading: false });
+
+      return { success: true };
     } catch (error) {
       console.log("Error", error);
       set({ isLoading: false });
@@ -40,14 +38,13 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  checkAuth:async()=>{
+  checkAuth: async () => {
     try {
-      const userJson=await AsyncStorage.getItem("user")
-      const user=userJson? JSON.parse(userJson):null
-      set({user})
+      const userJson = await AsyncStorage.getItem("user");
+      const user = userJson ? JSON.parse(userJson) : null;
+      set({ user });
     } catch (error) {
-      console.log("error fetching user from async",error)
-      
+      console.log("error fetching user from async", error);
     }
   },
   login: async (username, individualNumber) => {
@@ -64,49 +61,46 @@ export const useAuthStore = create((set) => ({
         }),
       });
       const data = await response.json();
-      //console.log(data)
 
       await AsyncStorage.removeItem("user", JSON.stringify(data.user));
       await AsyncStorage.removeItem("token", data.token);
 
       set({ user: data.user, isLoading: false, token: data.token });
       set({ isLoading: false });
-      return {success:true}
+      return { success: true };
     } catch (error) {
       console.log("Error", error);
       set({ isLoading: false, token: null, user: null });
     }
   },
-  verify:async(code)=>{
-
-    set({isLoading:true})
+  verify: async (code) => {
+    set({ isLoading: true });
     try {
-      const response=await fetch(`${API_URL}/api/user/verify`,{
-        method:"POST",
-        headers:{
-          "Content-Type":"application/json"
+      const response = await fetch(`${API_URL}/api/user/verify`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        body:JSON.stringify({
-          code
-        })
-      })
+        body: JSON.stringify({
+          code,
+        }),
+      });
 
+      //console.log("here:",response)
 
-      const data=await response.json()
-      if(!response.ok) throw new Error( data.message || "something went wrong")
-      console.log(data.message)
-      set({message:data})
+      const data = await response.json();
+      //console.log(data)
+      if (!response.ok) throw new Error(data.message || "something went wrong");
+      console.log(data);
+      set({ message: data });
 
-    
-      return {success:true}
+      return { success: true };
     } catch (error) {
-      console.log("Error",error)
-      set({isLoading:false,user:null,message:null})
-      return {success:false}
-
-      
+      console.log("Error", error);
+      set({ isLoading: false, user: null, message: null });
+      return { success: false };
     }
-  }
+  },
 }));
 
-export default useAuthStore
+export default useAuthStore;

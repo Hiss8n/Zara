@@ -20,11 +20,8 @@ import bcrypt from "bcryptjs";
         type:Number
         //required:true
     },
-    verificationCodeExpiredAt:{
-        type:Date,
-        default:Date.now(),
-        
-    },
+    verificationCodeExpiredAt:{type:Date},
+    
     isVerified:{
         type:Boolean,
         default:false

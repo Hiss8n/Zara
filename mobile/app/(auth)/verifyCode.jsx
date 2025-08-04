@@ -26,17 +26,16 @@ const verifyCode = () => {
     checkAuth
   }) */
 
-
+//console.log(typeof(code))
   const handleSubmit =async () => {
     const newcodeNum=parseInt(code)
      const res =await verify(newcodeNum)
-   
-     if(!res.seccess){
-      Alert.alert("Error"," Can not verify Now!!")
-      router.replace("/(auth)/login")
-      
+     if(res.success){
+       router.replace("/(tabs)/book")
       } else{
-        router.replace("/(tabs)/book")
+        Alert.alert("Error"," Can not verify Now!!")
+        router.replace("/(auth)/login")
+       
       }
      
      };
@@ -57,7 +56,7 @@ const verifyCode = () => {
               <TextInput
                 placeholder="Enter Verification code..."
                 onChangeText={setCode}
-                value={code}
+                value={code.trim()}
                 placeholderTextColor="#868383ff"
                 style={styles.input}
               />
