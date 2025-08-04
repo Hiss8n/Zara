@@ -10,7 +10,7 @@ function TabLayout() {
  
   
   >
-    <Tabs
+    <Tabs.Screen
     name='index'
     options={{
         title:'Home',
@@ -18,11 +18,20 @@ function TabLayout() {
     }}
 
     />
-    <Tabs
+     <Tabs.Screen
+    name='book'
+    options={{
+        title:'Book',
+        tabBarIcon:({color})=><Ionicons name='add-circle-outline' color={color} size={24}/>
+    }}
+
+    />
+    
+    <Tabs.Screen
     name='settings'
     options={{
         title:'Settings',
-        tabBarIcon:({color,size})=><Ionicons name='settings' color={color} size={24}/>
+        tabBarIcon:({color,size})=><Ionicons name='settings' color={color} size={size}/>
     }}
 
     />

@@ -1,13 +1,14 @@
 
 import React from 'react'
-import { Stack } from 'expo-router'
+import { Stack, useSegments } from 'expo-router'
 
 const AuthLayout = () => {
+  const segment=useSegments()
   return <Stack screenOptions={{headerShown:false}}>
-    {/*  <Stack.Screen name='/' />
-    <Stack.Screen name='/login'  />
-    <Stack.Screen name='/signUp' />  */}
-    <Stack.Screen name='/' />  {/* Code veerify */}
+  
+    <Stack.Screen name='login'  />
+    <Stack.Screen name='signUp' />  
+    <Stack.Screen name='verifyCode' />  {/* Code veerify */}
   </Stack>
 }
 

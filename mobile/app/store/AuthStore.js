@@ -1,11 +1,11 @@
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { use } from "react";
 
-const API_URL = "https://zara-zeta.vercel.app/";
+
+export const API_URL = "https://zara-zeta.vercel.app/";
 
 export const useAuthStore = create((set) => ({
-  user: null,
+  user:null,
   token: null,
   isLoading: false,
   message: null,
@@ -26,22 +26,28 @@ export const useAuthStore = create((set) => ({
       });
 
       const data = await response.json();
-      //console.log(data)
-      //await AsyncStorage.removeItem("user",JSON.stringify(data));
-
-      //console.log(response)
-      //await AsyncStorage.removeItem("message",JSON.stringify(data.token))
-      //set({user:data.user})
-      //set({message:data.message})
-      if (data.success) {
-        set({ user: data.user });
-      }
-      //console.log(data.success)
-      set({ isLoading: false });
+      if(!response.ok)throw new Error(data.message | "Somthing went wrong!")
+     
+      await AsyncStorage.setItem("user",JSON.stringify(data.user))
+      set({ user:data.user,isLoading:false});
+  
+      
+        return {success:true}
     } catch (error) {
       console.log("Error", error);
       set({ isLoading: false });
       return { success: false, error: data.message };
+    }
+  },
+
+  checkAuth:async()=>{
+    try {
+      const userJson=await AsyncStorage.getItem("user")
+      const user=userJson? JSON.parse(userJson):null
+      set({user})
+    } catch (error) {
+      console.log("error fetching user from async",error)
+      
     }
   },
   login: async (username, individualNumber) => {
@@ -65,12 +71,14 @@ export const useAuthStore = create((set) => ({
 
       set({ user: data.user, isLoading: false, token: data.token });
       set({ isLoading: false });
+      return {success:true}
     } catch (error) {
       console.log("Error", error);
       set({ isLoading: false, token: null, user: null });
     }
   },
   verify:async(code)=>{
+
     set({isLoading:true})
     try {
       const response=await fetch(`${API_URL}/api/user/verify`,{
@@ -85,12 +93,12 @@ export const useAuthStore = create((set) => ({
 
 
       const data=await response.json()
-      console.log(data)
-      
-
-
+      if(response.ok) throw new Error( data.message || "something went wrong")
+      console.log(data.message)
+      set({message:data})
 
       set({isLoading:false})
+      return {success:true}
     } catch (error) {
       console.log("Error",error)
       set({isLoading:false,user:null,message:null})
@@ -99,3 +107,5 @@ export const useAuthStore = create((set) => ({
     }
   }
 }));
+
+export default useAuthStore

@@ -3,12 +3,14 @@ import React from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import {LinearGradient }from "expo-linear-gradient"
 import{ Ionicons} from "@expo/vector-icons"
-import { Link } from "expo-router";
+import { Link, useSegments } from "expo-router";
 
 
 const WelcomeScreen = () => {
   const insets = useSafeAreaInsets();
+
   return (
+    <SafeAreaView style={{flex:1}}>  
     <LinearGradient
     colors={['#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#393739ff']}
       style={{
@@ -52,6 +54,7 @@ const WelcomeScreen = () => {
 
       </Link>
     </LinearGradient>
+    </SafeAreaView>
   );
 };
 

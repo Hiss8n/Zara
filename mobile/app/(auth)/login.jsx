@@ -1,4 +1,4 @@
-import { SafeAreaView, Text, TextInput, View,StyleSheet,TouchableOpacity, KeyboardAvoidingView, Platform,} from 'react-native'
+import { SafeAreaView, Text, TextInput, View,StyleSheet,TouchableOpacity, KeyboardAvoidingView, Platform, Alert,} from 'react-native'
 import React, { useState } from 'react'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Link, router } from 'expo-router'
@@ -16,8 +16,12 @@ const LoginScreen = () => {
     try {
       const res=await login(username,individualNumber)
 
-      if(res){
-        router.push('/(tabs)')
+      if(res.success){
+        
+        router.push('/verifyCode')
+      } else{
+        Alert.alert('can not login in now,try again later')
+
       }
       
 

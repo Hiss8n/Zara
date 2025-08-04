@@ -7,27 +7,39 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import SafeAreaContext from "../components/SafeAreaContext";
 import { useAuthStore } from "../store/AuthStore";
 import { LinearGradient } from "expo-linear-gradient";
+import { router } from "expo-router";
+
 
 
 const verifyCode = () => {
   const [code, setCode] = useState(0);
 
-  const { isLoading, verify, user } = useAuthStore();
+  const {user,isLoading,checkAuth,verify} = useAuthStore();
+
+  useEffect(()=>{
+    checkAuth
+  })
+
 
   const handleSubmit =async () => {
      const res =await verify(code)
-     if(res){
-      console.log(res)
-     } else{
-      return
-     }
+   
+     if(!res.seccess){
+      Alert.alert("Error"," Can not verify Now!!")
+      router.replace("/(auth)/login")
+      
+      } else{
+        router.replace("/(tabs)/book")
+      }
      
-  };
+     };
+     
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
@@ -84,7 +96,8 @@ const verifyCode = () => {
       </SafeAreaContext>
     </KeyboardAvoidingView>
   );
-};
+}
+
 
 const styles = StyleSheet.create({
   container: {
