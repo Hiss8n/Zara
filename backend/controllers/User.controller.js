@@ -124,6 +124,7 @@ export const verify = async (req, res) => {
       verificationCode,
       verificationCodeExpiredAt: { $gt: new Date() },
     });
+    console.log(verificationCode)
     if (!user) {
       return res
         .status(400)
@@ -136,10 +137,10 @@ export const verify = async (req, res) => {
     /* const expiredCode=await User.findOne({})
     if (!expiredCode){return res.status(40).json({ message: "Verification code Expired!" })
     }; */
-
+    user.isVerified = true;
     user.verificationCode = undefined,
     user.verificationCodeExpiredAt = undefined;
-    user.isVerified = true;
+    
      await user.save();
 
     res.status(200).json({

@@ -92,7 +92,8 @@ export const useAuthStore = create((set) => ({
       //console.log(data)
       if (!response.ok) throw new Error(data.message || "something went wrong");
       console.log(data);
-      set({ message: data });
+      set({ message: data.message });
+      console.log(message)
 
       return { success: true };
     } catch (error) {

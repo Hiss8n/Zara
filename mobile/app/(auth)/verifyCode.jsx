@@ -20,11 +20,13 @@ import { router } from "expo-router";
 const verifyCode = () => {
   const [code, setCode] = useState("");
 
-  const {user,isLoading,checkAuth,verify} = useAuthStore();
+  const {user,isLoading,checkAuth,verify,message} = useAuthStore();
 
-  /* useEffect(()=>{
+  useEffect(()=>{
     checkAuth
-  }) */
+  }) 
+  console.log(message)
+  console.log("This user is authenticated",user)
 
 //console.log(typeof(code))
   const handleSubmit =async () => {
