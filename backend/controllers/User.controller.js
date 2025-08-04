@@ -117,10 +117,11 @@ export const login = async (req, res) => {
 };
 
 export const verify = async (req, res) => {
-  const { otp } = req.body;
+  const { verificationCode } = req.body;
   try {
+    if(!verificationCode) return res.status(400).json({message:'Please enter verification code'})
     const user = await User.findOne({
-      verificationCode: otp,
+      verificationCode,
       verificationCodeExpiredAt: { $gt: new Date() },
     });
     if (!user) {
