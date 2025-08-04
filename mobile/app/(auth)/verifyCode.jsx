@@ -18,17 +18,18 @@ import { router } from "expo-router";
 
 
 const verifyCode = () => {
-  const [code, setCode] = useState(0);
+  const [code, setCode] = useState("");
 
   const {user,isLoading,checkAuth,verify} = useAuthStore();
 
-  useEffect(()=>{
+  /* useEffect(()=>{
     checkAuth
-  })
+  }) */
 
 
   const handleSubmit =async () => {
-     const res =await verify(code)
+    const newcodeNum=parseInt(code)
+     const res =await verify(newcodeNum)
    
      if(!res.seccess){
       Alert.alert("Error"," Can not verify Now!!")
@@ -56,7 +57,7 @@ const verifyCode = () => {
               <TextInput
                 placeholder="Enter Verification code..."
                 onChangeText={setCode}
-                value={parseInt(code)}
+                value={code}
                 placeholderTextColor="#868383ff"
                 style={styles.input}
               />
