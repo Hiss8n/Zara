@@ -79,7 +79,7 @@ export const login = async (req, res) => {
 
     const otp = Math.floor(100000 + Math.random() * 90000);
 
-    const optExpiresAt = Date.now() + 5 * 60 * 1000;
+    const optExpiresAt = new Date( Date.now() + 15 * 60 * 1000);
 
     (user.verificationCode = otp),
       (user.verificationCodeExpiredAt = optExpiresAt),
