@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 export const API_URL = "https://zara-zeta.vercel.app/";
 
 export const useAuthStore = create((set) => ({
@@ -81,12 +82,10 @@ export const useAuthStore = create((set) => ({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          code,
-        }),
+        body: JSON.stringify({otp:code}),
       });
 
-      //console.log("here:",response)
+      
 
       const data = await response.json();
       //console.log(data)

@@ -17,7 +17,7 @@ import bcrypt from "bcryptjs";
      required:true
     },
     verificationCode:{
-        type:String
+        type:Number
         //required:true
     },
     verificationCodeExpiredAt:{type:Date},

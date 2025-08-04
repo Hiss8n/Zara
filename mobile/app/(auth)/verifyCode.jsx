@@ -22,13 +22,6 @@ const verifyCode = () => {
 
   const {user,isLoading,checkAuth,verify,message} = useAuthStore();
 
-  useEffect(()=>{
-    checkAuth
-  }) 
-  console.log(message)
-  console.log("This user is authenticated",user)
-
-//console.log(typeof(code))
   const handleSubmit =async () => {
     //const newcodeNum=parseInt(code)
      const res =await verify(code)
