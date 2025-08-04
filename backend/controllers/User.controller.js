@@ -123,7 +123,7 @@ export const verify = async (req, res) => {
       verificationCode: otp,
       verificationCodeExpiredAt: { $gt: new Date.now() },
     });
-    if (user) {
+    if (!user) {
       return res
         .status(400)
         .json({
@@ -136,8 +136,8 @@ export const verify = async (req, res) => {
     if (!expiredCode){return res.status(40).json({ message: "Verification code Expired!" })
     }; */
 
-    (user.verificationCode = undefined),
-      (user.verificationCodeExpiredAt = undefined);
+    user.verificationCode = undefined,
+    user.verificationCodeExpiredAt = undefined;
     user.isVerified = true;
     user.save();
 

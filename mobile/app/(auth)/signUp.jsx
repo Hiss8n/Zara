@@ -40,7 +40,7 @@ const SignUp = () => {
     }
   };
 
-  console.log(user)
+  //
 
   return (
     <KeyboardAvoidingView
