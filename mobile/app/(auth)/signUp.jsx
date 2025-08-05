@@ -27,13 +27,19 @@ const SignUp = () => {
       const res = await register(username, email, individualNumber);
 
       if (!res.success) {
+        setUserName("");
+      setEmail("");
+      setIndividualNumber("");
+       
         Alert.alert("Can not register now", res.error);
       } else {
         router.push("/login");
-      }
-      setUserName("");
+         setUserName("");
       setEmail("");
       setIndividualNumber("");
+       
+      }
+      
       //console.log(user)
     } catch (error) {
       console.log("Error", error);

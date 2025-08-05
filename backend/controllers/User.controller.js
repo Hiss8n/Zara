@@ -1,7 +1,7 @@
 import { User } from "../model/User.js";
 import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "../config/email.js";
-import { use } from "react";
+
 
 export const register = async (req, res) => {
   const { username, email, individualNumber } = req.body;
