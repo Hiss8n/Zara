@@ -161,3 +161,32 @@ export const verify = async (req, res) => {
     res.status(500).json({ message: "Server error,can not verify token." });
   }
 };
+
+
+export const getAllUsers=async(req,res)=>{
+  try {
+    const users= await User.find()
+    if(!users) return res.status({message:"No users found"})
+    res.status(200).json({success:true,message:"Ftched completed",users})
+  } catch (error) {
+    console.log("Error".error)
+    return res.status(500).json({success:false,message:"can not fetch users now"})
+    
+  }
+}
+
+
+
+export const getOneUser=async(req,res)=>{
+  const {id} =req.params
+
+  try {
+    const user= await User.findById(id)
+    if(!user) return res.status({message:"No user found"})
+    res.status(200).json({success:true,message:"Fetched completed",user})
+  } catch (error) {
+    console.log("Error".error)
+    return res.status(500).json({success:false,message:"can not fetch user now"})
+    
+  }
+}

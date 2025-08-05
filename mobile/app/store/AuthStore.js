@@ -106,7 +106,7 @@ export const useAuthStore = create((set) => ({
 
   isAuthenticated:async()=>{
     try {
-      const response=await fetch()
+      const response=await fetch(`${API_URL}/api/user/login`)
       
     } catch (error) {
       

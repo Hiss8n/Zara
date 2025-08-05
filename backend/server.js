@@ -21,9 +21,9 @@ app.use(cors({
 app.use('/api/user',router);
 
 
-app.get('/',(req,res)=>{
+/* app.get('/',(req,res)=>{
     res.send("Hello,help refugees,solve easily.")
-})
+}) */
 /* 
 if(ENV.NODE_ENV !=="production"){
    app.listen(ENV.PORT,()=>console.log(`Sever is running on port: http://localhost:${PORT}`));

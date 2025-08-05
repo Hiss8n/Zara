@@ -9,10 +9,12 @@ import {
   Platform,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { useAuthStore } from "../store/AuthStore";
 import { Link, router } from "expo-router";
+import { useSegments } from "expo-router";
+
 const SignUp = () => {
   const [error, setError] = useState(false);
   const [username, setUserName] = useState("");
@@ -20,6 +22,9 @@ const SignUp = () => {
   const [individualNumber, setIndividualNumber] = useState("");
 
   const { user, register, isLoading } = useAuthStore();
+  const segment=useSegments()
+
+  
 
   const handleSignUp = async () => {
     try {

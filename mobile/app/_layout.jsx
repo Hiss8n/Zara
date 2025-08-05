@@ -1,9 +1,6 @@
 import { router, Slot, Stack, useSegments } from "expo-router";
 import useAuthStore from "./store/AuthStore";
 import { useEffect } from "react";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { SafeAreaView } from "react-native";
-import { routePatternToRegex } from "expo-router/build/fork/getStateFromPath-forks";
 
 export default function RootLayout() {
 
@@ -13,23 +10,27 @@ export default function RootLayout() {
 
    useEffect(()=>{
     checkAuth()
-  },[user])
+  },[])
+
+  const isauth=segment==="(auth)/login";
+  //console.log(isauth)
+  
  
 
    useEffect(()=>{
-    const isAuth= user && checkAuth
+   /* const isAuth= user && checkAuth
     const isLoggedIn= segment==="(auth)"
-    /* if(!isAuth && !isLoggedIn) router.replace("/(auth)/signUp") */
+     //if(!isAuth && !isLoggedIn) router.replace("/(auth)/signUp") 
 
-   /*  if(!isAuth && !isLoggedIn){
-      router.replace("/(auth)/login")
+    if(!isAuth && !isLoggedIn){
+      router.replace("/(auth)/verifyCode")
 
-    } else if(isAuth && isLoggedIn){
+    } else{
       router.replace("/(tabs)/book)")
-    } */
-  },[user,segment,checkAuth]) 
+    } 
+  },[user,segment,checkAuth])  */
 
-
+   })
   return<Stack screenOptions={{headerShown:false}}>
    {/*  <Slot name='index'/> */}
  {/*   <Stack.Screen name="index"/> */}

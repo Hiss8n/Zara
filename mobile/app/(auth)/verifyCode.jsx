@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   
 } from "react-native";
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SafeAreaContext from "../components/SafeAreaContext";
 import { useAuthStore } from "../store/AuthStore";
 import { LinearGradient } from "expo-linear-gradient";
@@ -21,6 +21,14 @@ import { router } from "expo-router";
   const [code, setCode] = useState("");
 
   const {user,isLoading,checkAuth,verify,message} = useAuthStore();
+
+  useEffect(()=>{
+    checkAuth
+const isVerified= user;
+
+  },[])
+
+
 
   const handleSubmit =async () => {
     //const newcodeNum=parseInt(code)
