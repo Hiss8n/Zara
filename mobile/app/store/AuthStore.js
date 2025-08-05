@@ -9,6 +9,7 @@ export const useAuthStore = create((set) => ({
   token: null,
   isLoading: false,
   message: null,
+ 
 
   register: async (username, email, individualNumber) => {
     set({ isLoading: true });
@@ -101,6 +102,17 @@ export const useAuthStore = create((set) => ({
       return { success: false };
     }
   },
+
+  isAuthenticated:async()=>{
+    try {
+      const response=await fetch()
+      
+    } catch (error) {
+      
+    }
+  }
 }));
+
+
 
 export default useAuthStore;

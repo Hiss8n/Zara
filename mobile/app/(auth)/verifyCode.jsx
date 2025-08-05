@@ -7,7 +7,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
-  Alert,
+  
 } from "react-native";
 import React, { use, useEffect, useState } from "react";
 import SafeAreaContext from "../components/SafeAreaContext";
@@ -17,7 +17,7 @@ import { router } from "expo-router";
 
 
 
-const verifyCode = () => {
+ export const verifyCode = () => {
   const [code, setCode] = useState("");
 
   const {user,isLoading,checkAuth,verify,message} = useAuthStore();
@@ -25,16 +25,14 @@ const verifyCode = () => {
   const handleSubmit =async () => {
     //const newcodeNum=parseInt(code)
      const res =await verify(code)
+
      if(res.success){
-       router.replace("/(tabs)/book")
-      } else{
-        Alert.alert("Error"," Can not verify Now!!")
-        router.replace("/(auth)/login")
-       
-      }
+      router.replace("/(tabs)/book")
+     } else{
+      router.back("/(auth)/login")
+     }
      
-     };
-     
+    }
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}

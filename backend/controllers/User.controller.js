@@ -1,6 +1,7 @@
 import { User } from "../model/User.js";
 import bcrypt from "bcryptjs";
 import { sendVerificationEmail } from "../config/email.js";
+import { use } from "react";
 
 export const register = async (req, res) => {
   const { username, email, individualNumber } = req.body;
@@ -121,6 +122,7 @@ export const verify = async (req, res) => {
    /* console.log(verificationCode) */
   try {
     if(!otp) return res.status(400).json({message:'Please enter verification code'})
+      console.log(otp)
     const user = await User.findOne({
       verificationCode:otp,
       verificationCodeExpiredAt: { $gt: new Date() },
@@ -147,7 +149,12 @@ export const verify = async (req, res) => {
     res.status(200).json({
       success:true,
       message:"Verified seccesfully",
-      user,
+      user:{
+        id:user._id,
+        username:username,
+        isVerified:isVerified,
+        individualNumber:undefined
+      }
     });
   } catch (error) {
     console.log("Error", error);
