@@ -46,7 +46,7 @@ function TabLayout() {
     <Tabs.Screen
     name='settings'
     options={{
-        title:'Settings',
+        title:'settings',
         tabBarIcon:({color,size})=><Ionicons name='settings' color={color} size={size}/>
     }}
 
