@@ -105,11 +105,16 @@ export const useAuthStore = create((set) => ({
   },
 
   isAuthenticated:async()=>{
+    set({isLoading:false})
     try {
-      const response=await fetch(`${API_URL}/api/user/login`)
-      
+      const response=await fetch(`${API_URL}/api/user/`);
+
+      const data = await response.json()
+      AsyncStorage.setItem("user",JSON.parse(data.user))
+
     } catch (error) {
-      
+      console.log("Error",error)
+     
     }
   }
 }));

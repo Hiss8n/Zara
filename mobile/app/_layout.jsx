@@ -1,4 +1,4 @@
-import { router, Slot, Stack, useSegments } from "expo-router";
+import { Stack, useSegments } from "expo-router";
 import useAuthStore from "./store/AuthStore";
 import { useEffect } from "react";
 
@@ -6,16 +6,14 @@ export default function RootLayout() {
 
   const {user,checkAuth}=useAuthStore()
   const segment=useSegments()
-  console.log("this is the seg:",segment)
+ // console.log("this is the seg:",segment)
 
    useEffect(()=>{
     checkAuth()
   },[])
 
-  const isauth=segment==="(auth)/login";
+  //const isauth=segment==="(auth)/login";
   //console.log(isauth)
-  
- 
 
    useEffect(()=>{
    /* const isAuth= user && checkAuth
@@ -34,7 +32,8 @@ export default function RootLayout() {
   return<Stack screenOptions={{headerShown:false}}>
    {/*  <Slot name='index'/> */}
  {/*   <Stack.Screen name="index"/> */}
-    <Stack.Screen name="(auth)"/>
+ 
+  {/*   <Stack.Screen name="(auth)"/> */}
     <Stack.Screen name="(tabs)"/>
   </Stack>
  

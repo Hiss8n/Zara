@@ -1,8 +1,24 @@
 import { Ionicons } from '@expo/vector-icons'
-import { Tabs } from 'expo-router'
-import React from 'react'
+import { router, Tabs } from 'expo-router'
+import React, { useEffect } from 'react'
+import useAuthStore from '../store/AuthStore'
 
 function TabLayout() {
+
+  const {user,checkAuth}=useAuthStore();
+
+  useEffect(()=>{
+    checkAuth()
+  })
+
+  useEffect(()=>{
+    const validateUser= user;
+    if(!validateUser){
+      //router.push("/(auth)/login")
+    }
+
+  },[user,checkAuth])
+  //console.log(user)
   return<Tabs
   screenOptions={{
     tabBarActiveTintColor:'blue'
