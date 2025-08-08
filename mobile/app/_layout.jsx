@@ -33,8 +33,11 @@ export default function RootLayout() {
    {/*  <Slot name='index'/> */}
  {/*   <Stack.Screen name="index"/> */}
  
-  {/*   <Stack.Screen name="(auth)"/> */}
+    <Stack.Screen name="(auth)"/>
+
     <Stack.Screen name="(tabs)"/>
+
+    
   </Stack>
  
 

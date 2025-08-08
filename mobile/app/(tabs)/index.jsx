@@ -9,7 +9,9 @@ const HomeScreen = () => {
   return (
     <SafeAreaContext style={{ flex: 1 }}>
       <SafeAreaView style={{ flex: 1, backgroundColor: "#d7d6d6ff" }}>
+
         <View style={styles.container}>
+
           <View
             style={{
               flexDirection: "column",
@@ -18,7 +20,7 @@ const HomeScreen = () => {
 
             }}
           >
-            <Text style={{ color: "#0e6bd5ff", fontSize: 25, fontWeight:600 }}>
+            <Text style={{ color: "#0e6bd5ff", fontSize: 20, fontWeight:600 }}>
               MEET UN / GOK STAFF 📆
             </Text>
             <Text style={{ fontSize: 14, marginLeft: -30 }}>
@@ -27,7 +29,7 @@ const HomeScreen = () => {
           </View>
         </View>
 
-        {!isAvailable ? (
+        { !isAvailable ? (
           <NoBookings />
         ) : (
           <View
