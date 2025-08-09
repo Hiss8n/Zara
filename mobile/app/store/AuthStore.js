@@ -29,6 +29,7 @@ export const useAuthStore = create((set) => ({
       });
 
       const data = await response.json();
+      console.log(data)
       if(!data){
         console.log("Can't get data now, try again later...")
         return {success:false}

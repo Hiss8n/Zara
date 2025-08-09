@@ -20,7 +20,7 @@ function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "blue",
+        tabBarActiveTintColor:"blue",
         //headerShown:false
       }}
     >
