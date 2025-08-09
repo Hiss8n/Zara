@@ -25,7 +25,7 @@ const LoginScreen = () => {
     try {
       const res = await login(username, individualNumber);
 
-      if (!res.success) {
+      if(!res.success) {
         Alert.alert("can not login in now,try again later");
       } else {
         router.push("/verifyCode");

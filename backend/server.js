@@ -8,16 +8,16 @@ import { BookRouter } from "./routes/book.routes.js";
 
 
 const PORT =process.env.PORT || 5001;
-const app= express()
+const app= express();
 
-app.use(express.json())
+app.use(express.json());
 app.use(cors({
   origin: "https://zara-zeta.vercel.app",
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
 
- connectDB()
+ connectDB();
 
 app.use('/api/user',UserRouter);
 app.use('/api/book',BookRouter);
@@ -35,5 +35,5 @@ if(ENV.NODE_ENV !=="production"){
    app.listen(ENV.PORT,()=>console.log(`Sever is running on port: http://localhost:${PORT}`));
 
 
-export default app
+export default app;
 

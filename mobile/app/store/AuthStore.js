@@ -29,7 +29,7 @@ export const useAuthStore = create((set) => ({
       });
 
       const data = await response.json();
-      console.log(data)
+     
       if(!data){
         console.log("Can't get data now, try again later...")
         return {success:false}
@@ -52,7 +52,13 @@ export const useAuthStore = create((set) => ({
     try {
       const userJson = await AsyncStorage.getItem("user");
       const user = userJson ? JSON.parse(userJson) : null;
-      set({ user });
+      if(user.isVerified){
+         set({ user });
+         } else {
+          return
+
+         }
+     
     } catch (error) {
       console.log("error fetching user from async", error);
     }
