@@ -101,11 +101,10 @@ export const login = async (req, res) => {
       console.error("Error", error);
       return res.status(500).json({ message: "Can not send email now" });
     }
-    const token = await generatToken(user._id);
+    /* const token = await generatToken(user._id); */
 
     return res.status(200).json({
       success: true,
-      token,
       user,
       message: "Sent a verification mail to your inbox",
     });
@@ -118,8 +117,9 @@ export const login = async (req, res) => {
 };
 
 export const verify = async (req, res) => {
+  
   const { otp} = req.body;
-   /* console.log(verificationCode) */
+   
   try {
     if(!otp) return res.status(400).json({message:'Please enter verification code'})
       console.log(otp)
@@ -149,12 +149,12 @@ export const verify = async (req, res) => {
     res.status(200).json({
       success:true,
       message:"Verified seccesfully",
-      user:{
+     /*  user:{
         id:user._id,
         username:username,
         isVerified:isVerified,
         individualNumber:undefined
-      }
+      } */
     });
   } catch (error) {
     console.log("Error", error);

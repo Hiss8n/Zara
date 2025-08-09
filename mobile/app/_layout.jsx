@@ -31,7 +31,7 @@ export default function RootLayout() {
    })
   return<Stack screenOptions={{headerShown:false}}>
    {/*  <Slot name='index'/> */}
- {/*   <Stack.Screen name="index"/> */}
+   <Stack.Screen name="index"/>
  
     <Stack.Screen name="(auth)"/>
 

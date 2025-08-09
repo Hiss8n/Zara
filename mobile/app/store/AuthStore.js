@@ -12,7 +12,9 @@ export const useAuthStore = create((set) => ({
  
 
   register: async (username, email, individualNumber) => {
+
     set({ isLoading: true });
+
     try {
       const response = await fetch(`${API_URL}/api/user/register`, {
         method: "POST",
@@ -33,7 +35,7 @@ export const useAuthStore = create((set) => ({
       }
      
       if (!response.ok) throw new Error(data.message | "Somthing went wrong!");
-       console.log(response)
+       
       await AsyncStorage.setItem("user", JSON.stringify(data.user));
       set({ user: data.user, isLoading: false });
 
@@ -72,7 +74,7 @@ export const useAuthStore = create((set) => ({
       await AsyncStorage.removeItem("user", JSON.stringify(data.user));
       await AsyncStorage.removeItem("token", data.token);
 
-      set({ user: data.user, isLoading: false, token: data.token });
+      set({ user: data?.user, isLoading: false, token: data?.token });
       set({ isLoading: false });
       return { success: true };
     } catch (error) {

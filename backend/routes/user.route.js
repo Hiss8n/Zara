@@ -4,10 +4,10 @@ import express from "express";
 import { register,login,verify, getAllUsers, getOneUser } from "../controllers/User.controller.js";
 
 
-export const router=express.Router()
+export const UserRouter=express.Router()
 
-router.post('/register',register);
-router.post('/login',login);
-router.post('/verify',verify)
-router.get('/',getAllUsers)
-router.get('/:id',getOneUser)
+UserRouter.post('/register',register);
+UserRouter.post('/login',login);
+UserRouter.post('/verify',verify)
+UserRouter.get('/',getAllUsers)
+UserRouter.get('/:id',getOneUser)

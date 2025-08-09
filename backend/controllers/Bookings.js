@@ -1,25 +1,31 @@
-import mongoose, { model, Mongoose } from "mongoose";
+
+import {Book} from "../model/Book.js";
 
 
- export const bookSchema= new mongoose.Schema({
-    place:{
-        type:String,
-        required:true,
-        enum:["Kalobeyei","Feild post II","Camp manager","Field post I","Field post III"]
-    },
-    individual:{
-        type:mongoose.Types.ObjectId,
-        Ref:"User",
-        required:true,
 
+
+ export const bookMeeting= async(req,res)=>{
+    const {place,date,individual} =req.body
+    try {
+
+        if(!place || !date || !individual){
+            return res.status(400).json({success:false,message:"Please fill all the fields"})
+        }
+        const book = await Book.findOne({$or:[{place},{individual}]});
+        if(book) return res.status(500).json({success:false,message:"Already booked"})
+
+
+            const newBook= new Book.create({
+                place,date,individual
+            })
+      await newBook.save()
+        
+       res.status(201).json({success:true,message:"Created new user.."}) 
+    } catch (error) {
+        console.log("Error",error);
+        return res.status(500).json({success:false,message:"Server error, can not create a schedule now!!"})
+        
     }
-},{timestamps:true})
-
-
-const Book = mongoose.model("book",bookSchema);
- module.exports=Book
-
-
-
+}
 
 

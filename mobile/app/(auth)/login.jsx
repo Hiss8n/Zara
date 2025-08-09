@@ -1,180 +1,174 @@
-import { SafeAreaView, Text, TextInput, View,StyleSheet,TouchableOpacity, KeyboardAvoidingView, Platform, Alert,} from 'react-native'
-import React, { useState } from 'react'
-import { LinearGradient } from 'expo-linear-gradient'
-import { Link, router } from 'expo-router'
-import { useAuthStore } from '../store/AuthStore'
+import {
+  SafeAreaView,
+  Text,
+  TextInput,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  Alert,
+} from "react-native";
+import React, { useState } from "react";
+import { LinearGradient } from "expo-linear-gradient";
+import { Link, router } from "expo-router";
+import { useAuthStore } from "../store/AuthStore";
 
 const LoginScreen = () => {
-  
-  const [error,setError]=useState(false)
-  const [username,setUserName]=useState()
-  const [individualNumber,setIndividualNumber]=useState("")
+  const [error, setError] = useState(false);
+  const [username, setUserName] = useState();
+  const [individualNumber, setIndividualNumber] = useState("");
 
-  const {isLoading,user,login}= useAuthStore()
+  const { isLoading, user, login } = useAuthStore();
 
-  const handleLogin=async()=>{
+  const handleLogin = async () => {
     try {
-      const res=await login(username,individualNumber)
+      const res = await login(username, individualNumber);
 
-      if(res.success){
-        
-        router.push('/verifyCode')
-      } else{
-        Alert.alert('can not login in now,try again later')
-
+      if (!res.success) {
+        Alert.alert("can not login in now,try again later");
+      } else {
+        router.push("/verifyCode");
       }
-      
-
     } catch (error) {
-      console.log("error",error)
-      
+      console.log("error", error);
     }
-  }
- 
-  
-  return (<KeyboardAvoidingView
-  style={{flex:1}}
-  behavior={Platform.OS === 'ios'? "padding":"height"}
-  
-  >  
-    
-  
-      <SafeAreaView style={{flex:1,justifyContent:'center'}}>
-       
-        <View style={styles.inputContainer}>
+  };
 
+  return (
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+        <View style={styles.inputContainer}>
           <Text style={styles.inputHeader}>login</Text>
           {/*  <Loader size={24} color='red'/> */}
 
           <View style={styles.logInContainer}>
-          <Text style={styles.label}>Enter you first Name</Text>
-          <TextInput
-          value={username}
-          onChangeText={setUserName}
-          placeholderTextColor='#353333ff'
-          placeholder='johnDoe...'
-          style={styles.nameInput}
-          />
-
-
+            <Text style={styles.label}>Enter you first Name</Text>
+            <TextInput
+              value={username}
+              onChangeText={setUserName}
+              placeholderTextColor="#353333ff"
+              placeholder="johnDoe..."
+              style={styles.nameInput}
+            />
           </View>
           <View style={styles.logInContainer}>
-          <Text style={styles.label}>Enter Individual Number</Text>
-          <TextInput
-          value={individualNumber}
-          onChangeText={setIndividualNumber}
-          placeholderTextColor='#353333ff'
-          placeholder='individual no...'
-          style={styles.nameInput}
-          />
-
-
+            <Text style={styles.label}>Enter Individual Number</Text>
+            <TextInput
+              value={individualNumber}
+              onChangeText={setIndividualNumber}
+              placeholderTextColor="#353333ff"
+              placeholder="individual no..."
+              style={styles.nameInput}
+            />
           </View>
-             {error ? <Text>{error}</Text>:null}
-              
-                <LinearGradient
-                colors={['#1717d5ff','#30aadaff']}
-                start={{
-                  x:0,y:0
-                }}
-                end={{x:1,y:1}}
-                 style={styles.forward} >
-                  <TouchableOpacity
-                  onPress={handleLogin}
-                   style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}} >
+          {error ? <Text>{error}</Text> : null}
 
-                    { isLoading ? <Text style={{color:'#efefe7ff',fontSize:16}}>Loading...</Text>:
-                    <Text style={{fontStyle:'normal',fontSize:18,color:'#fff'}}>Login </Text>} 
-                  
-                  
-                   
-                </TouchableOpacity>
-                  
-                </LinearGradient>
-                <Link href={'/verifyCode'}>code</Link>
-          
-          </View>
-          <View style={styles.bottomText}>
-            <Text>Don't have an account? {""}<Link href={'/signUp'} style={{color:'#da067aff',fontSize:14}}>Register</Link></Text>
-          </View>
-         
+          <LinearGradient
+            colors={["#1717d5ff", "#30aadaff"]}
+            start={{
+              x: 0,
+              y: 0,
+            }}
+            end={{ x: 1, y: 1 }}
+            style={styles.forward}
+          >
+            <TouchableOpacity
+              onPress={handleLogin}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {isLoading ? (
+                <Text style={{ color: "#efefe7ff", fontSize: 16 }}>
+                  Loading...
+                </Text>
+              ) : (
+                <Text
+                  style={{ fontStyle: "normal", fontSize: 18, color: "#fff" }}
+                >
+                  Login{" "}
+                </Text>
+              )}
+            </TouchableOpacity>
+          </LinearGradient>
+          <Link href={"/verifyCode"}>code</Link>
+        </View>
+        <View style={styles.bottomText}>
+          <Text>
+            Don't have an account? {""}
+            <Link href={"/signUp"} style={{ color: "#da067aff", fontSize: 14 }}>
+              Register
+            </Link>
+          </Text>
+        </View>
       </SafeAreaView>
-      </KeyboardAvoidingView>
-   
-   
-  )
-}
+    </KeyboardAvoidingView>
+  );
+};
 
-
-
-const styles=StyleSheet.create({
-  inputContainer:{
+const styles = StyleSheet.create({
+  inputContainer: {
     //width:'100%',
-   // backgroundColor:'#0456ce',
-    marginTop:140,
-    paddingBottom:30,
-    with:321
+    // backgroundColor:'#0456ce',
+    marginTop: 140,
+    paddingBottom: 30,
+    with: 321,
+  },
+  logInContainer: {
+    flexDirection: "column",
+    width: "100%",
+    height: 70,
+    marginLeft: 28,
+    borderRadius: 20,
+    marginTop: 34,
+    paddingTop: 8,
+  },
+  inputHeader: {
+    fontSize: 24,
+    textAlign: "center",
+    marginBottom: 12,
+    color: "#0456ec",
+    fontWeight: 700,
+  },
+  label: {
+    fontSize: 16,
+    color: "#2a2626a9",
+    marginBottom: 10,
+  },
+  nameInput: {
+    borderWidth: 1,
+    borderColor: "blue",
+    width: 320,
+    borderRadius: 10,
 
+    paddingLeft: 12,
   },
-  logInContainer:{
-    flexDirection:'column',
-    width:'100%',
-    height:70,
-    marginLeft:28,
-    borderRadius:20,
-    marginTop:34,
-    paddingTop:8
-    
-
-  },
-  inputHeader:{
-    fontSize:24,
-    textAlign:'center',
-    marginBottom:12,
-    color:'#0456ec',
-    fontWeight:700
-
-  },
-  label:{
-    fontSize:16,
-    color:'#2a2626a9',
-    marginBottom:10
-
-  },
-  nameInput:{
-    borderWidth:1,
-    borderColor:'blue',
-    width:320,
-    borderRadius:10,
-    
-    paddingLeft:12
-    
-  },
-    forward:{
+  forward: {
     //flexDirection:'row',
     //alignItems:'center',
-    marginBottom:0,
-    marginTop:50,
-    paddingTop:15,
+    marginBottom: 0,
+    marginTop: 50,
+    paddingTop: 15,
     //width:321,
-    paddingBottom:15,
-    marginLeft:24,
-    marginRight:24,
-    borderRadius:35, 
-    flexDirection:'column',
+    paddingBottom: 15,
+    marginLeft: 24,
+    marginRight: 24,
+    borderRadius: 35,
+    flexDirection: "column",
 
-  //padding:18,
-  
-    
-
-    
-
+    //padding:18,
   },
-  bottomText:{
-    flexDirection:'row',
-    alignContent:'center',
-    justifyContent:'center',
-    marginTop:0
-  }
-})
-export default LoginScreen
+  bottomText: {
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "center",
+    marginTop: 0,
+  },
+});
+export default LoginScreen;

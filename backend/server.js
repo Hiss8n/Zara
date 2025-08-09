@@ -1,9 +1,10 @@
 import express from "express";
 import cors from "cors";
-import { router} from "./routes/user.route.js";
+import { UserRouter} from "./routes/user.route.js";
 
 import connectDB from "./database/db.js";
 import ENV from "./config/env.js";
+import { BookRouter } from "./routes/book.routes.js";
 
 
 const PORT =process.env.PORT || 5001;
@@ -18,7 +19,9 @@ app.use(cors({
 
  connectDB()
 
-app.use('/api/user',router);
+app.use('/api/user',UserRouter);
+app.use('/api/book',BookRouter);
+
 
 
 /* app.get('/',(req,res)=>{

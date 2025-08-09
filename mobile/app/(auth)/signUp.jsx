@@ -68,7 +68,7 @@ const SignUp = () => {
             <TextInput
               value={username.trim()}
               placeholderTextColor="#353333ff"
-              placeholder="johnDoe..."
+              placeholder="JohnDoe..."
               style={styles.nameInput}
               onChangeText={setUserName}
             />
@@ -79,7 +79,7 @@ const SignUp = () => {
               value={email.trim()}
               onChangeText={setEmail}
               placeholderTextColor="#353333ff"
-              placeholder="johndoe@gmail.com..."
+              placeholder="Johndoe@gmail.com..."
               style={styles.nameInput}
             />
           </View>
@@ -90,7 +90,7 @@ const SignUp = () => {
               value={individualNumber.trim()}
               onChangeText={setIndividualNumber}
               placeholderTextColor="#353333ff"
-              placeholder="individual no..."
+              placeholder="Individual no..."
               style={styles.nameInput}
             />
           </View>
